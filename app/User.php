@@ -10,13 +10,15 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    protected $table = 'users';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'nama', 'email', 'password','role_id','nomor_registrasi','kelas_id'
     ];
 
     /**
@@ -38,7 +40,7 @@ class User extends Authenticatable
     ];
 
     public function isAdmin(){
-        if($this->role_id == 2){
+        if($this->role_id == 1){
             return true;
         }
         return false;

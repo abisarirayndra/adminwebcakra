@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+use App\User;
 use Alert;
+
 
 class AuthController extends Controller
 {
@@ -21,15 +23,14 @@ class AuthController extends Controller
         ];
 
         if(Auth::attempt($credentials)){
-
             if(auth()->user()->role_id == 1){
                 Alert::toast('Selamat Datang Master', 'success');
-                return redirect()->route('super.index');
+                return redirect()->route('admin.beranda');
             }
 
-        Alert::error('Akun tidak ditemukan','Gagal');
-        return redirect()->route('login');
         }
+        Alert::error('Akun tidak ditemukan','Gagal');
+        return redirect()->back();
     }
 
     public function logout(){
