@@ -10,6 +10,7 @@ use Auth;
 use Alert;
 use App\Kelas;
 use App\Role;
+use File;
 
 class PenggunaController extends Controller
 {
@@ -31,10 +32,10 @@ class PenggunaController extends Controller
 
     public function lihatPendaftar($id){
         $user = Auth::user()->nama;
-        $pendaftar = Pendaftar::join('users','users.id','=','adm_pendaftars.pendaftar')
-                                ->select('users.nama','users.email','adm_pendaftars.pendaftar','adm_pendaftars.tempat_lahir','adm_pendaftars.tanggal_lahir','adm_pendaftars.alamat','adm_pendaftars.sekolah','adm_pendaftars.wa',
-                                            'adm_pendaftars.wali','adm_pendaftars.wa_wali','adm_pendaftars.foto','adm_pendaftars.markas')
-                                ->where('adm_pendaftars.pendaftar', $id)
+        $pendaftar = Pelajar::join('users','users.id','=','adm_pelajars.pelajar_id')
+                                ->select('users.nama','users.email','adm_pelajars.pelajar_id','adm_pelajars.tempat_lahir','adm_pelajars.tanggal_lahir','adm_pelajars.alamat','adm_pelajars.sekolah','adm_pelajars.wa',
+                                            'adm_pelajars.wali','adm_pelajars.wa_wali','adm_pelajars.foto','adm_pelajars.markas','adm_pelajars.nik','adm_pelajars.nisn','adm_pelajars.ibu')
+                                ->where('adm_pelajars.pelajar_id', $id)
                                 ->first();
         $kelas = Kelas::all();
 
@@ -42,23 +43,6 @@ class PenggunaController extends Controller
     }
 
     public function migrasiPendaftar($id, Request $request){
-        $pendaftar = Pendaftar::where('pendaftar', $id)->first();
-        Pelajar::create([
-            'pelajar_id' => $pendaftar->pendaftar,
-            'tempat_lahir' => $pendaftar->tempat_lahir,
-            'tanggal_lahir' => $pendaftar->tanggal_lahir,
-            'alamat' => $pendaftar->alamat,
-            'nik' => $pendaftar->nik,
-            'nisn' => $pendaftar->nisn,
-            'sekolah' => $pendaftar->sekolah,
-            'wa' => $pendaftar->wa,
-            'ibu' => $pendaftar->ibu,
-            'wali' => $pendaftar->wali,
-            'wa_wali' => $pendaftar->wa_wali,
-            'foto' => $pendaftar->foto,
-            'markas' => $pendaftar->markas,
-        ]);
-        $pendaftar->delete();
         $akun = User::find($id);
         $akun->update([
             'kelas_id' => $request->kelas_id,
@@ -69,6 +53,14 @@ class PenggunaController extends Controller
         Alert::toast('Migrasi Pendaftar ke Pelajar Berhasil');
         return redirect()->route('admin.penggunapelajar');
 
+    }
+
+    public function hapusPendaftar($id){
+        $akun = User::find($id);
+        $akun->delete();
+
+        Alert::toast('Hapus Pendaftar Berhasil');
+        return redirect()->route('admin.penggunapendaftar');
     }
 
     public function penggunaPelajar(){
@@ -171,8 +163,6 @@ class PenggunaController extends Controller
         return redirect()->route('admin.penggunapelajar');
     }
 
-    // Belum Selesai
-
     public function penggunaPelajarSuspend(Request $request){
         $user = Auth::user()->nama;
         $pelajar = User::join('kelas','kelas.id','=','users.kelas_id')
@@ -209,8 +199,6 @@ class PenggunaController extends Controller
         Alert::toast('Data Berhasil Dihapus','success');
         return redirect()->route('admin.penggunasuspend');
     }
-
-
 
     public function penggunaPendidik(){
         $user = Auth::user()->nama;

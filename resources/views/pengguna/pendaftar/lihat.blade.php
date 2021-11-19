@@ -15,7 +15,7 @@
             <div class="p-3 mt-3">
                 <div class="row">
                     <div class="col-xl-4 col-sm-4 text-center">
-                        <img src="{{asset('/img/pendaftar/'. $pendaftar->foto)}}" width="150" alt="">
+                        <img src="https://cakrakrisnamanggala.com/img/pendaftar/{{$pendaftar->foto}}" width="120" alt="">
                     </div>
                     <div class="col-xl-8 col-sm-8">
                         <div class="row">
@@ -90,7 +90,7 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-                <form action="{{ route('admin.penggunapendaftar.migrasi', [$pendaftar->pendaftar]) }}" method="POST">
+                <form action="{{ route('admin.penggunapendaftar.migrasi', [$pendaftar->pelajar_id]) }}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">

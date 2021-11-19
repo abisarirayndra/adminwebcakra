@@ -23,6 +23,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth','admin-role']], functi
     Route::get('/pengguna-pendaftar','PenggunaController@penggunaPendaftar')->name('admin.penggunapendaftar');
     Route::get('/pengguna-pendaftar/lihat/{id}','PenggunaController@lihatPendaftar')->name('admin.penggunapendaftar.lihat');
     Route::post('/pengguna-pendaftar/migrasi/{id}','PenggunaController@migrasiPendaftar')->name('admin.penggunapendaftar.migrasi');
+    Route::get('/pengguna-pendaftar/hapus/{id}','PenggunaController@hapusPendaftar')->name('admin.penggunapendaftar.hapus');
     Route::get('/pengguna-pendidik','PenggunaController@penggunaPendidik')->name('admin.penggunapendidik');
     Route::get('/pengguna-pelajar/lihat/{id}','PenggunaController@lihatPelajar')->name('admin.penggunapelajar.lihat');
     Route::get('/pengguna-pelajar/edit/{id}','PenggunaController@editPelajar')->name('admin.penggunapelajar.edit');
@@ -34,6 +35,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth','admin-role']], functi
     Route::get('/pengguna-pelajar-suspended','PenggunaController@penggunaPelajarSuspend')->name('admin.penggunasuspend');
     Route::get('/pengguna-pelajar-suspended/lihat/{id}','PenggunaController@lihatSuspended')->name('admin.penggunasuspend.lihat');
     Route::get('/pengguna-pelajar-suspended/cabut-suspend-pelajar/{id}','PenggunaController@cabutSuspendPelajar')->name('admin.penggunasuspend.cabutsuspendpelajar');
+
 });
 
 

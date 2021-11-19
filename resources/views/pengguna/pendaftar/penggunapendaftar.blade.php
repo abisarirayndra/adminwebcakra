@@ -35,6 +35,7 @@
                             <td>{{ \Carbon\Carbon::parse($item->updated_at)->isoFormat('dddd, D MMMM YYYY HH:mm') }}</td>
                             <td>
                               <a href="{{ route('admin.penggunapendaftar.lihat', [$item->id]) }}" class="btn btn-sm btn-success"><i class="fas fa-eye"></i> Lihat</a>
+                              <a href="{{ route('admin.penggunapendaftar.hapus', [$item->id]) }}" class="btn btn-sm btn-danger" onclick="return confirm('Anda yakin ingin menghapus akun ini ?')"><i class="fas fa-trash"></i> Hapus</a>
                               </td>
                           </tr>
                         @endforeach
