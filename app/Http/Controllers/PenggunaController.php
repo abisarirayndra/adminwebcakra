@@ -11,6 +11,8 @@ use Alert;
 use App\Kelas;
 use App\Role;
 use File;
+use Hash;
+use App\Pendidik;
 
 class PenggunaController extends Controller
 {
@@ -200,6 +202,7 @@ class PenggunaController extends Controller
         return redirect()->route('admin.penggunasuspend');
     }
 
+    // Pendidik
     public function penggunaPendidik(){
         $user = Auth::user()->nama;
         $pendidik = User::where('role_id', 3)
@@ -207,5 +210,52 @@ class PenggunaController extends Controller
                     ->get();
 
         return view('pengguna.pendidik.penggunapendidik', compact('user','pendidik'));
+    }
+
+    // Staf Admin
+    public function penggunaStafAdmin(){
+        $user = Auth::user()->nama;
+        $admin = User::where('role_id', 7)
+                        ->orderBy('users.id','desc')
+                        ->get();
+
+        return view('pengguna.staf_admin.penggunaadmin', compact('user','admin'));
+    }
+
+    public function tambahStafAdmin(Request $request){
+        $request->validate([
+            'email' => 'required|unique:users',
+            'nomor_registrasi' => 'required|unique:users',
+        ]);
+
+        User::create([
+            'nama' => $request->nama,
+            'nomor_registrasi' => $request->nomor_registrasi,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role_id' => 7,
+        ]);
+
+        Alert::toast('Tambah Staf Admin Berhasil','success');
+        return redirect()->back();
+    }
+
+    public function lihatStafAdmin($id){
+        $user = Auth::user()->nama;
+        $admin = Pendidik::select('users.nama','adm_pendidik.tempat_lahir','adm_pendidik.tanggal_lahir',
+                        'adm_pendidik.alamat','adm_pendidik.nik','adm_pendidik.nip','mapels.mapel','adm_pendidik.wa',
+                        'adm_pendidik.ibu','adm_pendidik.foto','adm_pendidik.cv','adm_pendidik.status_dapodik')
+                        ->join('users','users.id','=','adm_pendidik.pendidik_id')
+                        ->join('mapels','mapels.id','=','adm_pendidik.mapel_id')
+                        ->where('adm_pendidik.pendidik_id', $id)->first();
+
+        return view('pengguna.staf_admin.lihat', compact('user','admin'));
+    }
+
+    public function destroyStafAdmin($id){
+        $staf = User::find($id);
+        $staf->delete();
+        Alert::toast('Hapus Staf Berhasil','success');
+        return redirect()->back();
     }
 }

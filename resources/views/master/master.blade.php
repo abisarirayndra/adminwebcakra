@@ -50,7 +50,7 @@
                                   <a class="dropdown-item" href="{{ route('admin.penggunapendidik') }}">Pendidik</a>
                                   <a class="dropdown-item" href="#">Umum</a>
                                   <a class="dropdown-item" href="{{ route('admin.penggunasuspend') }}">Suspended</a>
-                                  <a class="dropdown-item" href="#">Admin</a>
+                                  <a class="dropdown-item" href="{{ route('admin.penggunaadmin') }}">Staf Admin</a>
                                 </div>
                               </li>
 

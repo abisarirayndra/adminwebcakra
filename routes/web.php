@@ -35,6 +35,11 @@ Route::group(['prefix' => 'admin','middleware' => ['auth','admin-role']], functi
     Route::get('/pengguna-pelajar-suspended','PenggunaController@penggunaPelajarSuspend')->name('admin.penggunasuspend');
     Route::get('/pengguna-pelajar-suspended/lihat/{id}','PenggunaController@lihatSuspended')->name('admin.penggunasuspend.lihat');
     Route::get('/pengguna-pelajar-suspended/cabut-suspend-pelajar/{id}','PenggunaController@cabutSuspendPelajar')->name('admin.penggunasuspend.cabutsuspendpelajar');
+    Route::get('/pengguna-admin','PenggunaController@penggunaStafAdmin')->name('admin.penggunaadmin');
+    Route::post('/pengguna-admin/tambah','PenggunaController@tambahStafAdmin')->name('admin.penggunaadmin.tambah');
+    Route::get('/pengguna-admin/hapus/{id}','PenggunaController@destroyStafAdmin')->name('admin.penggunaadmin.hapus');
+    Route::get('/pengguna-admin/lihat/{id}','PenggunaController@lihatStafAdmin')->name('admin.penggunaadmin.lihat');
+
 
 });
 
